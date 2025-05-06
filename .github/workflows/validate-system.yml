@@ -18,6 +18,7 @@ env:
   ANTITHESIS_IMAGES_TO_PULL: "etcd-client:latest"   # list of images on antithesis image registry separated by a space
   SLEEP_DURATION: 10                                # Duration to sleep before setup complete
   CONTAINERS_EXPECTED_TO_BE_RUNNING: "etcd0 etcd1 etcd2 client"   # containers we expect to be running by setup_complete
+  #TODO: add env.REGISTRY & env.REPOSITORY 
 
 jobs:
   build:
