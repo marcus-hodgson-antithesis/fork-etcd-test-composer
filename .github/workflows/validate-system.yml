@@ -22,16 +22,16 @@ jobs:
         continue-on-error: false
       - name: Checkout Repository for access
         uses: actions/checkout@v4
+        continue-on-error: false
       - name: Parse docker-compose for unique images
         run: |
-            ls
             images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | tr -d '"' | tr '\n' ' ')
             echo "IMAGES=$images" >> $GITHUB_ENV
             echo "Extracted images: $images"
         continue-on-error: false
       #TODO: update where we look for the docker-compose
       - name: Start application-specific services using Docker Compose
-        run: docker-compose up -d
+        run: docker-compose up -d -f config/docker-compose.yml
         continue-on-error: false
       # TODO: sleep
       # TODO: validate that containers are up
