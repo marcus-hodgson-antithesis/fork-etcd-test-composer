@@ -47,7 +47,7 @@ services:
       ETCD_INITIAL_CLUSTER_STATE: "new"
       ALLOW_NONE_AUTHENTICATION: "yes"
 
-  # client:
-  #   image: 'etcd-client:latest'
-  #   container_name: client
-  #   entrypoint: ['/entrypoint.py']
+  client:
+    image: 'etcd-client:latest'
+    container_name: client
+    entrypoint: ['/entrypoint.py']

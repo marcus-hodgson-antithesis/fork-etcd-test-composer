@@ -25,14 +25,23 @@ jobs:
         continue-on-error: false
       - name: Parse docker-compose for unique images
         run: |
-            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | tr -d '"' | tr '\n' ' ')
-            echo "IMAGES=$images" >> $GITHUB_ENV
+            # Different images separated by a space
+            exclude="etcd-client:latest"
+            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | sort -u)
             echo "Extracted images: $images"
+            filtered_images=()
+            for img in $images; do
+              if [[ ! " $exclude " =~ " $img " ]]; then
+                filtered_images+=("$img")
+              fi
+            done
+            echo "IMAGES=$images" >> $GITHUB_ENV
+            echo "Filtered images: ${filtered_images[@]}"
         continue-on-error: false
       #TODO: update where we look for the docker-compose
-      - name: Start application-specific services using Docker Compose
-        run: docker-compose -f config/docker-compose.yml up -d
-        continue-on-error: false
+      # - name: Start application-specific services using Docker Compose
+      #   run: docker-compose -f config/docker-compose.yml up -d
+      #   continue-on-error: false
       # TODO: sleep
       # TODO: validate that containers are up
       # TODO: validate that setup_complete emitted (might need to define another env var)
