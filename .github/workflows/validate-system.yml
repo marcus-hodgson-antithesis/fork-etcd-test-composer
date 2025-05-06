@@ -20,7 +20,11 @@ jobs:
             sudo chmod +x /usr/local/bin/docker-compose
             docker-compose --version
         continue-on-error: false
-      #TODO: parse docker-compose to get necessary images
+      - name: Parse docker-compose for unique images
+        run: |
+            images=$(cat docker-compose.yml | grep "image:" | awk '{print $2}' | tr -d '"' | tr '\n' ' ')
+            echo "IMAGES=$images" >> $GITHUB_ENV
+            echo "Extracted images: $images"
       #TODO: update where we look for the docker-compose
       - name: Start application-specific services using Docker Compose
         run: docker-compose up -d
