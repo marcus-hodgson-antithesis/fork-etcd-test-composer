@@ -27,7 +27,7 @@ jobs:
         run: |
             # Different images separated by a space
             exclude="etcd-client:latest"
-            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | sort -u | tr -d "'")
+            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | sort -u | tr -d "'\"" | tr '\n' ' ')
             echo "Extracted images: $images"
             filtered_images=()
             for img in $images; do
@@ -35,7 +35,6 @@ jobs:
                 filtered_images+=("$img")
               fi
             done
-            echo "IMAGES=$images" >> $GITHUB_ENV
             echo "Filtered images: ${filtered_images[@]}"
         continue-on-error: false
       #TODO: update where we look for the docker-compose
