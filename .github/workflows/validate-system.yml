@@ -31,7 +31,7 @@ jobs:
         continue-on-error: false
       #TODO: update where we look for the docker-compose
       - name: Start application-specific services using Docker Compose
-        run: docker-compose up -d -f config/docker-compose.yml
+        run: docker-compose -f config/docker-compose.yml up -d
         continue-on-error: false
       # TODO: sleep
       # TODO: validate that containers are up
