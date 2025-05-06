@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  DOCKER_COMPOSE_PATH: "config/docker-compose.yml"
+  IMAGES_TO_NOT_PULL: "etcd-client:latest"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,8 +30,8 @@ jobs:
       - name: Parse docker-compose for unique images
         run: |
             # Different images separated by a space
-            exclude="etcd-client:latest"
-            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | sort -u | tr -d "'\"" | tr '\n' ' ')
+            exclude=$IMAGES_TO_NOT_PULL
+            images=$(cat $DOCKER_COMPOSE_PATH | grep "image:" | awk '{print $2}' | sort -u | tr -d "'\"" | tr '\n' ' ')
             echo "Extracted images: $images"
             filtered_images=()
             for img in $images; do
@@ -39,7 +43,7 @@ jobs:
         continue-on-error: false
       #TODO: update where we look for the docker-compose
       # - name: Start application-specific services using Docker Compose
-      #   run: docker-compose -f config/docker-compose.yml up -d
+      #   run: docker-compose -f $DOCKER_COMPOSE_PATH up -d
       #   continue-on-error: false
       # TODO: sleep
       # TODO: validate that containers are up
