@@ -3,7 +3,7 @@ name: Validate SUT can stand up
 on: 
   push:
     branches:
-      - docker-compose-action
+      - main
 
 jobs:
   build:
