@@ -20,8 +20,9 @@ jobs:
             sudo chmod +x /usr/local/bin/docker-compose
             docker-compose --version
         continue-on-error: false
-      - name: Parse docker-compose for unique images
+      - name: Checkout Repository for access
         uses: actions/checkout@v4
+      - name: Parse docker-compose for unique images
         run: |
             ls
             images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | tr -d '"' | tr '\n' ' ')
