@@ -11,7 +11,6 @@ jobs:
     steps:
       - name: Install Docker using Docker's official script
         run: |
-            ls
             curl -fsSL https://get.docker.com -o get-docker.sh 
             sudo sh get-docker.sh
         continue-on-error: false
@@ -22,6 +21,7 @@ jobs:
             docker-compose --version
         continue-on-error: false
       - name: Parse docker-compose for unique images
+        uses: actions/checkout@v4
         run: |
             ls
             images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | tr -d '"' | tr '\n' ' ')
