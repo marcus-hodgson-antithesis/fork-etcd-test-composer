@@ -27,7 +27,7 @@ jobs:
         run: |
             # Different images separated by a space
             exclude="etcd-client:latest"
-            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | sort -u | tr -d ''')
+            images=$(cat config/docker-compose.yml | grep "image:" | awk '{print $2}' | sort -u | tr -d "'")
             echo "Extracted images: $images"
             filtered_images=()
             for img in $images; do
